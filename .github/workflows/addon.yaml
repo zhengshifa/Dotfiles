@@ -31,7 +31,7 @@ jobs:
             './Dotfiles.tar.gz' => ~/.dotfiles
           last_ssh: |-
             cd ~/.dotfiles
-            tar -xzf Dotfiles.tar.gz -C 
+            tar -xzf Dotfiles.tar.gz
             chmod +x install.sh
             sh install.sh
             rm -rf Dotfiles.tar.gz
