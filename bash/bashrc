@@ -1,0 +1,42 @@
+# 启用命令自动补全
+shopt -s histappend        # 启用历史记录追加模式
+shopt -s autocd            # 支持自动跳转到目录
+
+# 设置默认编辑器为 Vim
+export EDITOR='vim'
+
+# 设置历史记录相关配置
+export HISTSIZE=10000      # 保存历史记录的最大行数
+export HISTFILESIZE=20000  # 保存历史记录的文件大小
+export HISTCONTROL=ignoredups:ignorespace  # 忽略重复命令和以空格开头的命令
+export HISTIGNORE="ls:cd:exit:clear"  # 忽略常见命令
+
+# 别名配置
+alias ll='ls -lh'
+alias la='ls -lA'
+alias gs='git status'
+alias gc='git commit'
+alias ga='git add'
+alias gd='git diff'
+# 清空终端
+alias cls='clear'
+
+# `grep` 显示行号
+alias grep='grep -n --color=auto'
+
+# 常用 Docker 命令
+alias dps='docker ps'
+alias dlogs='docker logs -f'
+
+
+# 提高提示符的可读性
+PS1='[\u@\h \w]\$ '  # 用户名、主机名和当前路径
+
+
+# 启用 bash 自动补全
+if [ -f /etc/bash_completion ]; then
+  . /etc/bash_completion
+fi
+
+# 启用自动拼写纠正
+shopt -s cdspell

@@ -1,0 +1,37 @@
+name: Dotfiles
+
+on:
+  push:
+    branches:
+      - main  # Adjust branch name as needed
+  workflow_dispatch:  # Enable manual trigger
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Compress files for transfer
+        run: tar -czf Dotfiles.tar.gz ./
+
+      - name: Deploy to remote server
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          user: ${{ secrets.DEPLOY_USER }}
+          pass: ${{ secrets.PASS }}
+          port: ${{ secrets.DC_PORT }}
+          connect_timeout: 60s
+          first_ssh: |-
+            rm -rf ~/.dotfiles
+            mkdir -p ~/.dotfiles
+          scp: |-
+            './Dotfiles.tar.gz' => ~/.dotfiles
+          last_ssh: |-
+            cd ~/.dotfiles
+            tar -xzf Dotfiles.tar.gz -C 
+            chmod +x install.sh
+            sh install.sh
+            rm -rf Dotfiles.tar.gz
